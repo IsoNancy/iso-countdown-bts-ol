@@ -1,216 +1,216 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Compte à rebours — BTS 2025</title>
-  <style>
-    :root{
-      --navy:#06172d;
-      --teal:#14e9d4;
-      --coral:#f3555a;
-      --amber:#f2aa33;
-      --white:#fbfafa;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Compte à rebours — BTS 2025</title>
 
-    html,body{height:100%; margin:0;}
-    body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--white);
-      background: var(--navy);
-      overflow:hidden;
-    }
+<style>
+:root{
+  --navy:#06172d;
+  --teal:#14e9d4;
+  --coral:#f3555a;
+  --amber:#f2aa33;
+  --white:#fbfafa;
+}
 
-    /* Blobs */
-    .blob{
-      position:absolute;
-      width: 80vmin; height: 80vmin;
-      border-radius: 999px;
-      filter: blur(40px);
-      opacity: .95;
-      transform: translate(-50%,-50%);
-    }
-    .blob.teal{ background: radial-gradient(circle at 30% 30%, var(--teal), transparent 60%); left:18%; top:78%; }
-    .blob.coral{ background: radial-gradient(circle at 40% 40%, var(--coral), transparent 60%); left:35%; top:55%; }
-    .blob.amber{ background: radial-gradient(circle at 50% 50%, var(--amber), transparent 60%); left:70%; top:62%; }
+html,body{
+  height:100%;
+  margin:0;
+}
 
-    .wrap{
-      position:relative;
-      height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 5vh 5vw;
-    }
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--white);
+  background: var(--navy);
+  overflow:hidden;
+}
 
-    .card{
-      width:min(1400px, 92vw);
-      text-align:center;
-      background: rgba(6,23,45,.35);
-      border: 1px solid rgba(251,250,250,.12);
-      border-radius: 28px;
-      padding: clamp(18px, 3.2vw, 42px);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 70px rgba(0,0,0,.35);
-    }
+/* Blobs */
+.blob{
+  position:absolute;
+  width:80vmin;
+  height:80vmin;
+  border-radius:999px;
+  filter:blur(40px);
+  opacity:.95;
+  transform:translate(-50%,-50%);
+}
 
-    .bts-tag{
-      display:inline-block;
-      background: rgba(20,233,212,.95);
-      color:#05243b;
-      font-weight: 900;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      padding: 18px 36px;
-      border-radius: 20px;
-      font-size: clamp(60px, 6vw, 100px);
-      margin-bottom: 25px;
-      transform: rotate(-2deg);
-    }
+.blob.teal{
+  background: radial-gradient(circle at 30% 30%, var(--teal), transparent 60%);
+  left:18%;
+  top:78%;
+}
 
-    .jline{
-      font-size: clamp(50px, 5vw, 90px);
-      font-weight: 900;
-      margin: 10px 0 25px 0;
-      opacity: .95;
-    }
+.blob.coral{
+  background: radial-gradient(circle at 40% 40%, var(--coral), transparent 60%);
+  left:35%;
+  top:55%;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
+.blob.amber{
+  background: radial-gradient(circle at 50% 50%, var(--amber), transparent 60%);
+  left:70%;
+  top:62%;
+}
 
-    .box{
-      border-radius: 18px;
-      border: 1px solid rgba(251,250,250,.12);
-      background: rgba(251,250,250,.08);
-      padding: 20px 10px;
-    }
+.wrap{
+  position:relative;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:5vh 5vw;
+}
 
-    .num{
-      font-size: clamp(36px, 4vw, 70px);
-      font-weight: 900;
-    }
+.card{
+  width:min(1600px, 96vw);
+  min-height:88vh;
+  text-align:center;
+  background:rgba(6,23,45,.35);
+  border:1px solid rgba(251,250,250,.12);
+  border-radius:28px;
+  padding:clamp(18px,3.2vw,42px);
+  backdrop-filter:blur(10px);
+  box-shadow:0 20px 70px rgba(0,0,0,.35);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:18px;
+}
 
-    .lbl{
-      margin-top: 6px;
-      font-size: clamp(12px, 1.2vw, 18px);
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color: rgba(251,250,250,.75);
-    }
+/* BTS 2025 */
+.bts-tag{
+  display:inline-block;
+  background:rgba(20,233,212,.95);
+  color:#05243b;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:18px 36px;
+  border-radius:20px;
+  font-size:clamp(60px,6vw,100px);
+  transform:rotate(-2deg);
+}
 
-    /* Badge slogan ajusté */
-    .slogan{
-      margin-top: 35px;
-      display:inline-block;
-      padding: 18px 40px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.18);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      font-size: clamp(28px, 2.2vw, 42px); /* réduit pour tenir sur une ligne */
-      font-weight: 700;
-      color: var(--coral);
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-      box-shadow: 0 8px 30px rgba(0,0,0,.25);
-      text-shadow:
-        0 0 8px rgba(243,85,90,.4),
-        0 0 16px rgba(243,85,90,.25);
-    }
+/* J-X */
+.jline{
+  font-size:clamp(50px,5vw,90px);
+  font-weight:900;
+  margin:10px 0 25px 0;
+  opacity:.95;
+}
 
-  </style>
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.box{
+  border-radius:18px;
+  border:1px solid rgba(251,250,250,.12);
+  background:rgba(251,250,250,.08);
+  padding:20px 10px;
+}
+
+.num{
+  font-size:clamp(36px,4vw,70px);
+  font-weight:900;
+}
+
+.lbl{
+  margin-top:6px;
+  font-size:clamp(12px,1.2vw,18px);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(251,250,250,.75);
+}
+
+/* Slogan */
+.slogan{
+  margin-top:35px;
+  display:inline-block;
+  padding:18px 40px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  font-size:clamp(28px,2.2vw,42px);
+  font-weight:700;
+  color:var(--coral);
+  white-space:nowrap;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+  text-shadow:
+    0 0 8px rgba(243,85,90,.4),
+    0 0 16px rgba(243,85,90,.25);
+}
+</style>
 </head>
 
 <body>
-  <div class="blob teal"></div>
-  <div class="blob coral"></div>
-  <div class="blob amber"></div>
 
-  <div class="wrap">
-    <div class="card">
+<div class="blob teal"></div>
+<div class="blob coral"></div>
+<div class="blob amber"></div>
 
-      <div class="bts-tag">BTS 2025</div>
+<div class="wrap">
+  <div class="card">
 
-      <div class="jline" id="j">J-…</div>
+    <div class="bts-tag">BTS 2025</div>
 
-      <div class="grid">
-        <div class="box"><div class="num" id="d">—</div><div class="lbl">jours</div></div>
-        <div class="box"><div class="num" id="h">—</div><div class="lbl">heures</div></div>
-        <div class="box"><div class="num" id="m">—</div><div class="lbl">minutes</div></div>
-        <div class="box"><div class="num" id="s">—</div><div class="lbl">secondes</div></div>
-      </div>
+    <div class="jline" id="j">J-…</div>
 
-      <div class="slogan">
-        Travaillez avec régularité, réussissez avec sérénité.
-      </div>
-
+    <div class="grid">
+      <div class="box"><div class="num" id="d">—</div><div class="lbl">jours</div></div>
+      <div class="box"><div class="num" id="h">—</div><div class="lbl">heures</div></div>
+      <div class="box"><div class="num" id="m">—</div><div class="lbl">minutes</div></div>
+      <div class="box"><div class="num" id="s">—</div><div class="lbl">secondes</div></div>
     </div>
+
+    <div class="slogan">
+      Travaillez avec régularité, réussissez avec sérénité.
+    </div>
+
   </div>
+</div>
 
-  <script>
-    const targetLocal = "2026-05-18T09:30:00";
+<script>
+// Date cible : 18 mai 2026 à 09:30 heure de Paris (UTC+02 en mai)
+const targetUTCms = Date.parse("2026-05-18T09:30:00+02:00");
 
-    function getParisOffsetMinutes(date) {
-      const fmt = new Intl.DateTimeFormat("fr-FR", {
-        timeZone: "Europe/Paris",
-        hour12: false,
-        year: "numeric", month: "2-digit", day: "2-digit",
-        hour: "2-digit", minute: "2-digit", second: "2-digit"
-      });
-      const parts = fmt.formatToParts(date).reduce((a,p)=> (a[p.type]=p.value, a), {});
-      const asUTC = Date.UTC(
-        Number(parts.year),
-        Number(parts.month)-1,
-        Number(parts.day),
-        Number(parts.hour),
-        Number(parts.minute),
-        Number(parts.second)
-      );
-      return (asUTC - date.getTime()) / 60000;
-    }
+const el = id => document.getElementById(id);
+const pad2 = n => String(n).padStart(2,"0");
 
-    function parisWallTimeToUTCms(isoLocal) {
-      const [dPart, tPart] = isoLocal.split("T");
-      const [Y,M,D] = dPart.split("-").map(Number);
-      const [hh,mm,ss] = tPart.split(":").map(Number);
-      const provisionalUTC = Date.UTC(Y, M-1, D, hh, mm, ss || 0);
-      const offsetMin = getParisOffsetMinutes(new Date(provisionalUTC));
-      return provisionalUTC - offsetMin * 60000;
-    }
+function tick(){
+  const now = Date.now();
+  let diff = targetUTCms - now;
 
-    const targetUTCms = parisWallTimeToUTCms(targetLocal);
-    const el = id => document.getElementById(id);
-    const pad2 = n => String(n).padStart(2,"0");
+  if (diff <= 0){
+    el("j").textContent = "C’est parti !";
+    ["d","h","m","s"].forEach(x => el(x).textContent = "00");
+    return;
+  }
 
-    function tick(){
-      const now = Date.now();
-      let diff = targetUTCms - now;
+  const totalSeconds = Math.floor(diff/1000);
+  const days = Math.floor(totalSeconds / (3600*24));
+  const hours = Math.floor((totalSeconds % (3600*24)) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-      if (diff <= 0){
-        el("j").textContent = "C’est parti !";
-        ["d","h","m","s"].forEach(x=>el(x).textContent="00");
-        return;
-      }
+  el("j").textContent = `J-${days}`;
+  el("d").textContent = days;
+  el("h").textContent = pad2(hours);
+  el("m").textContent = pad2(minutes);
+  el("s").textContent = pad2(seconds);
+}
 
-      const totalSeconds = Math.floor(diff/1000);
-      const days = Math.floor(totalSeconds / (3600*24));
-      const hours = Math.floor((totalSeconds % (3600*24)) / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
+tick();
+setInterval(tick, 1000);
+</script>
 
-      el("j").textContent = `J-${days}`;
-      el("d").textContent = String(days);
-      el("h").textContent = pad2(hours);
-      el("m").textContent = pad2(minutes);
-      el("s").textContent = pad2(seconds);
-    }
-
-    tick();
-    setInterval(tick, 250);
-  </script>
 </body>
 </html>
