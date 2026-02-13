@@ -17,7 +17,6 @@
   html,body{height:100%; margin:0; overflow:hidden; background:var(--navy);}
   body{font-family: Arial, Helvetica, sans-serif;}
 
-  /* Conteneur plein écran */
   #viewport{
     position:fixed;
     inset:0;
@@ -25,7 +24,6 @@
     background:var(--navy);
   }
 
-  /* Scène fixe 1920x1080 */
   #stage{
     position:absolute;
     width:1920px;
@@ -69,6 +67,7 @@
     box-shadow: 0 20px 70px rgba(0,0,0,.35);
   }
 
+  /* BTS 2025 horizontal */
   .bts{
     width: 100%;
     background: rgba(20,233,212,.95);
@@ -80,7 +79,6 @@
     text-align:center;
     padding: 26px 0;
     border-radius: 22px;
-    transform: rotate(-2deg);
   }
 
   .j{
@@ -161,58 +159,25 @@
   </div>
 
 <script>
-  // -------- Robust fit (iSignage-friendly) --------
   function getViewportSize(){
-    var v = document.getElementById("viewport");
-    if (v && v.getBoundingClientRect){
-      var r = v.getBoundingClientRect();
-      var w = Math.max(1, Math.floor(r.width));
-      var h = Math.max(1, Math.floor(r.height));
-      return {w:w, h:h};
-    }
-    var w2 = document.documentElement.clientWidth || window.innerWidth || 1920;
-    var h2 = document.documentElement.clientHeight || window.innerHeight || 1080;
-    return {w:w2, h:h2};
+    var w = document.documentElement.clientWidth || window.innerWidth || 1920;
+    var h = document.documentElement.clientHeight || window.innerHeight || 1080;
+    return {w:w, h:h};
   }
 
   function fitStage(){
     var size = getViewportSize();
-
-    // fallback visualViewport (parfois plus fiable)
-    if (window.visualViewport && window.visualViewport.width && window.visualViewport.height){
-      size.w = Math.max(size.w, Math.floor(window.visualViewport.width));
-      size.h = Math.max(size.h, Math.floor(window.visualViewport.height));
-    }
-
     var scale = Math.min(size.w / 1920, size.h / 1080);
-
     var left = Math.round((size.w - 1920 * scale) / 2);
     var top  = Math.round((size.h - 1080 * scale) / 2);
-
     var stage = document.getElementById("stage");
     stage.style.transform = "translate(" + left + "px," + top + "px) scale(" + scale + ")";
   }
 
-  // Lance plusieurs fois + boucle courte (webviews lents)
-  function startFitLoop(ms){
-    var start = Date.now();
-    function loop(){
-      fitStage();
-      if (Date.now() - start < ms){
-        requestAnimationFrame(loop);
-      }
-    }
-    loop();
-  }
+  window.addEventListener("resize", fitStage);
+  setTimeout(fitStage, 300);
+  setTimeout(fitStage, 1200);
 
-  window.addEventListener("resize", function(){ startFitLoop(1200); });
-  window.addEventListener("orientationchange", function(){ startFitLoop(1200); });
-
-  // initial
-  startFitLoop(2500);
-
-  // -------- Countdown (ES5) --------
-  // 18 mai 2026 09:30 Paris (UTC+02) => 07:30Z
   var targetUTCms = 1779089400000;
 
   function el(id){ return document.getElementById(id); }
@@ -247,6 +212,5 @@
   tick();
   setInterval(tick, 1000);
 </script>
-
 </body>
 </html>
