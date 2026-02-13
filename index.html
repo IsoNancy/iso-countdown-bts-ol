@@ -21,7 +21,7 @@
       overflow:hidden;
     }
 
-    /* Blobs de couleur */
+    /* Blobs */
     .blob{
       position:absolute;
       width: 80vmin; height: 80vmin;
@@ -54,7 +54,7 @@
       box-shadow: 0 20px 70px rgba(0,0,0,.35);
     }
 
-    /* Rectangle principal BTS 2025 */
+    /* BTS 2025 */
     .bts-tag{
       display:inline-block;
       background: rgba(20,233,212,.95);
@@ -69,7 +69,7 @@
       transform: rotate(-2deg);
     }
 
-    /* J-X plus petit */
+    /* J-X */
     .jline{
       font-size: clamp(50px, 5vw, 90px);
       font-weight: 900;
@@ -103,6 +103,23 @@
       color: rgba(251,250,250,.75);
     }
 
+    /* Badge slogan glassmorphism */
+    .slogan{
+      margin-top: 35px;
+      display:inline-block;
+      padding: 16px 32px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-size: clamp(16px, 1.5vw, 26px);
+      font-weight: 500;
+      color: rgba(255,255,255,0.95);
+      letter-spacing: .02em;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
+
   </style>
 </head>
 
@@ -123,6 +140,11 @@
         <div class="box"><div class="num" id="h">—</div><div class="lbl">heures</div></div>
         <div class="box"><div class="num" id="m">—</div><div class="lbl">minutes</div></div>
         <div class="box"><div class="num" id="s">—</div><div class="lbl">secondes</div></div>
+      </div>
+
+      <!-- Badge slogan -->
+      <div class="slogan">
+        Travaillez avec régularité, réussissez avec sérénité.
       </div>
 
     </div>
