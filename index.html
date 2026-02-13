@@ -31,20 +31,11 @@
     opacity:.95;
     transform: translate(-50%,-50%);
   }
-  .blob.teal{
-    background: radial-gradient(circle at 30% 30%, var(--teal), transparent 60%);
-    left:18%; top:80%;
-  }
-  .blob.coral{
-    background: radial-gradient(circle at 40% 40%, var(--coral), transparent 60%);
-    left:35%; top:55%;
-  }
-  .blob.amber{
-    background: radial-gradient(circle at 50% 50%, var(--amber), transparent 60%);
-    left:72%; top:62%;
-  }
+  .blob.teal{  background: radial-gradient(circle at 30% 30%, var(--teal), transparent 60%);  left:18%; top:80%; }
+  .blob.coral{ background: radial-gradient(circle at 40% 40%, var(--coral), transparent 60%); left:35%; top:55%; }
+  .blob.amber{ background: radial-gradient(circle at 50% 50%, var(--amber), transparent 60%); left:72%; top:62%; }
 
-  /* Plein écran + contenu plus grand */
+  /* Fit iSignage */
   .wrap{
     position:relative;
     height:100%;
@@ -52,19 +43,19 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    padding: 0;              /* important : pas de marges */
+    padding: 0;
   }
 
+  /* IMPORTANT: pas de height fixe, on FIT dans l'écran */
   .card{
-    width: 98vw;             /* quasi plein écran */
-    height: 94vh;            /* quasi plein écran */
-    max-width: none;
+    width: min(1700px, 96vw);
+    max-height: 92vh;              /* évite la coupe */
     text-align:center;
 
     background: rgba(6,23,45,.35);
     border: 1px solid rgba(251,250,250,.12);
     border-radius: 28px;
-    padding: 3vh 3vw;
+    padding: clamp(14px, 2.2vw, 34px);
 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -73,7 +64,7 @@
     display:flex;
     flex-direction:column;
     justify-content:center;
-    gap: 2.2vh;
+    gap: clamp(10px, 1.6vh, 18px);
   }
 
   /* BTS 2025 */
@@ -84,16 +75,15 @@
     font-weight:900;
     letter-spacing:.08em;
     text-transform:uppercase;
-    padding: 18px 36px;
+    padding: clamp(10px, 1.2vh, 16px) clamp(18px, 2.2vw, 30px);
     border-radius: 20px;
-    font-size: 5.4vw;        /* gros */
-    max-font-size: 110px;    /* ignoré si non supporté, ok */
+    font-size: clamp(40px, 4.8vw, 92px);
     transform: rotate(-2deg);
   }
 
   /* J-X */
   .jline{
-    font-size: 4.8vw;        /* gros */
+    font-size: clamp(28px, 4.2vw, 78px);
     font-weight:900;
     margin: 0;
     opacity:.95;
@@ -102,40 +92,40 @@
   .grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap: 1.2vw;
+    gap: clamp(10px, 1.1vw, 16px);
   }
 
   .box{
     border-radius: 18px;
     border: 1px solid rgba(251,250,250,.12);
     background: rgba(251,250,250,.08);
-    padding: 3.2vh 1vw;
+    padding: clamp(14px, 2.2vh, 24px) clamp(10px, 1vw, 14px);
   }
 
   .num{
-    font-size: 4.2vw;        /* gros */
+    font-size: clamp(26px, 4vw, 64px);
     font-weight:900;
+    line-height: 1;
   }
 
   .lbl{
-    margin-top: 1vh;
-    font-size: 1.4vw;
+    margin-top: 8px;
+    font-size: clamp(10px, 1.2vw, 16px);
     letter-spacing:.08em;
     text-transform:uppercase;
     color: rgba(251,250,250,.75);
   }
 
-  /* Slogan (badge translucide + glow rouge subtil) */
   .slogan{
     display:inline-block;
-    padding: 16px 34px;
+    padding: clamp(12px, 1.8vh, 16px) clamp(18px, 2.2vw, 34px);
     border-radius: 999px;
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.18);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 
-    font-size: 2.4vw;
+    font-size: clamp(16px, 2.1vw, 34px);
     font-weight:700;
     color: var(--coral);
     white-space: nowrap;
@@ -144,15 +134,6 @@
     text-shadow:
       0 0 8px rgba(243,85,90,.45),
       0 0 16px rgba(243,85,90,.25);
-  }
-
-  /* Pour éviter que certaines TV rétrécissent trop le texte */
-  @media (max-width: 900px){
-    .bts-tag{ font-size: 46px; }
-    .jline{ font-size: 40px; }
-    .num{ font-size: 34px; }
-    .lbl{ font-size: 12px; }
-    .slogan{ font-size: 18px; }
   }
 </style>
 </head>
@@ -180,14 +161,11 @@
   </div>
 
 <script>
-  // Ultra-compatible (ES5)
-  // Cible: 18 mai 2026 09:30 heure de Paris (en mai = UTC+02)
-  // => UTC: 18 mai 2026 07:30:00Z
-  // Epoch ms calculé: 1779089400000
+  // ES5 ultra-compatible
+  // Cible: 18 mai 2026 09:30 Paris (UTC+02) => 07:30Z
   var targetUTCms = 1779089400000;
 
   function el(id){ return document.getElementById(id); }
-
   function pad2(n){
     n = String(n);
     return (n.length < 2) ? ("0" + n) : n;
@@ -196,12 +174,6 @@
   function tick(){
     var now = new Date().getTime();
     var diff = targetUTCms - now;
-
-    // Debug soft : si quelque chose ne va pas, on le voit tout de suite
-    if (!isFinite(diff)) {
-      el("j").innerHTML = "Erreur JS";
-      return;
-    }
 
     if (diff <= 0){
       el("j").innerHTML = "C’est parti !";
@@ -225,7 +197,6 @@
     el("s").innerHTML = pad2(seconds);
   }
 
-  // Lance après chargement
   tick();
   setInterval(tick, 1000);
 </script>
