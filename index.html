@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Compte à rebours — BTS OL</title>
+  <title>Compte à rebours — BTS 2025</title>
   <style>
     :root{
-      /* Palette extraite/approchée de ton visuel */
+      /* Palette proche de ton visuel */
       --navy:#06172d;     /* bleu nuit */
       --teal:#14e9d4;     /* vert d'eau */
       --coral:#f3555a;    /* rouge corail */
@@ -23,9 +23,9 @@
       overflow:hidden;
     }
 
-    /* “Blobs” de couleur façon ton visuel */
+    /* Blobs de couleur façon visuel */
     .blob{
-      position:absolute; inset:auto;
+      position:absolute;
       width: 80vmin; height: 80vmin;
       border-radius: 999px;
       filter: blur(40px);
@@ -62,34 +62,26 @@
       justify-content:center;
       align-items:center;
       flex-wrap:wrap;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
     .tag{
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.06em;
       text-transform:uppercase;
       padding: 10px 16px;
       border-radius: 14px;
       display:inline-block;
+      background: rgba(20,233,212,.95);
+      color:#05243b;
+      transform: rotate(-2deg);
     }
-    .tag.teal{ background: rgba(20,233,212,.95); color:#05243b; transform: rotate(-2deg); }
-    .tag.coral{ background: rgba(243,85,90,.95); color:#ffffff; transform: rotate(1.5deg); }
 
-    h1{
-      margin: 8px 0 18px 0;
-      font-size: clamp(30px, 3.2vw, 54px);
-      line-height: 1.15;
-    }
-    .big{
+    .jline{
       font-size: clamp(74px, 8.2vw, 150px);
       font-weight: 900;
       letter-spacing: -0.02em;
-      margin: 4px 0 6px 0;
-    }
-    .sub{
-      margin: 0 0 22px 0;
-      font-size: clamp(18px, 1.8vw, 32px);
-      color: var(--muted);
+      margin: 6px 0 18px 0;
+      line-height: 1;
     }
 
     .grid{
@@ -135,17 +127,18 @@
 
   <div class="wrap">
     <div class="card">
+
+      <!-- Rectangles (teal uniquement) -->
       <div class="topline">
-        <span class="tag teal">AFFICHAGE</span>
-        <span class="tag coral">TÉLÉ ISO</span>
+        <span class="tag">AFFICHAGE</span>
+        <span class="tag">BTS 2025</span>
       </div>
 
-      <h1>BTS Opticien-Lunetier — compte à rebours</h1>
+      <!-- On garde J-X au dessus -->
+      <div class="jline" id="j">J-…</div>
 
-      <div class="big" id="j">J-…</div>
-      <p class="sub" id="line">Chargement…</p>
-
-      <div class="grid" aria-label="Détail">
+      <!-- Compteur (une seule fois : les rectangles) -->
+      <div class="grid" aria-label="Compte à rebours">
         <div class="box"><div class="num" id="d">—</div><div class="lbl">jours</div></div>
         <div class="box"><div class="num" id="h">—</div><div class="lbl">heures</div></div>
         <div class="box"><div class="num" id="m">—</div><div class="lbl">minutes</div></div>
@@ -178,7 +171,7 @@
         Number(parts.minute),
         Number(parts.second)
       );
-      return (asUTC - date.getTime()) / 60000; // minutes
+      return (asUTC - date.getTime()) / 60000;
     }
 
     function parisWallTimeToUTCms(isoLocal) {
@@ -200,7 +193,6 @@
 
       if (diff <= 0){
         el("j").textContent = "C’est parti !";
-        el("line").textContent = "Bonne chance à tous 💪";
         ["d","h","m","s"].forEach(x=>el(x).textContent="00");
         return;
       }
@@ -212,8 +204,6 @@
       const seconds = totalSeconds % 60;
 
       el("j").textContent = `J-${days}`;
-      el("line").textContent = `${days} jour(s), ${pad2(hours)}h ${pad2(minutes)}m ${pad2(seconds)}s avant l’épreuve.`;
-
       el("d").textContent = String(days);
       el("h").textContent = pad2(hours);
       el("m").textContent = pad2(minutes);
