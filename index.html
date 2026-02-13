@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compte à rebours — BTS OL</title>
+  <style>
+    :root{
+      /* Palette extraite/approchée de ton visuel */
+      --navy:#06172d;     /* bleu nuit */
+      --teal:#14e9d4;     /* vert d'eau */
+      --coral:#f3555a;    /* rouge corail */
+      --amber:#f2aa33;    /* jaune/orange */
+      --white:#fbfafa;
+      --muted:rgba(251,250,250,.78);
+    }
+
+    html,body{height:100%; margin:0;}
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--white);
+      background: var(--navy);
+      overflow:hidden;
+    }
+
+    /* “Blobs” de couleur façon ton visuel */
+    .blob{
+      position:absolute; inset:auto;
+      width: 80vmin; height: 80vmin;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: .95;
+      transform: translate(-50%,-50%);
+    }
+    .blob.teal{ background: radial-gradient(circle at 30% 30%, var(--teal), transparent 60%); left:18%; top:78%; }
+    .blob.coral{ background: radial-gradient(circle at 40% 40%, var(--coral), transparent 60%); left:35%; top:55%; }
+    .blob.amber{ background: radial-gradient(circle at 50% 50%, var(--amber), transparent 60%); left:70%; top:62%; }
+
+    .wrap{
+      position:relative;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 5vh 5vw;
+    }
+
+    .card{
+      width:min(1400px, 92vw);
+      text-align:center;
+      background: rgba(6,23,45,.35);
+      border: 1px solid rgba(251,250,250,.12);
+      border-radius: 28px;
+      padding: clamp(18px, 3.2vw, 42px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+    }
+
+    .topline{
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .tag{
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      padding: 10px 16px;
+      border-radius: 14px;
+      display:inline-block;
+    }
+    .tag.teal{ background: rgba(20,233,212,.95); color:#05243b; transform: rotate(-2deg); }
+    .tag.coral{ background: rgba(243,85,90,.95); color:#ffffff; transform: rotate(1.5deg); }
+
+    h1{
+      margin: 8px 0 18px 0;
+      font-size: clamp(30px, 3.2vw, 54px);
+      line-height: 1.15;
+    }
+    .big{
+      font-size: clamp(74px, 8.2vw, 150px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin: 4px 0 6px 0;
+    }
+    .sub{
+      margin: 0 0 22px 0;
+      font-size: clamp(18px, 1.8vw, 32px);
+      color: var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .box{
+      border-radius: 18px;
+      border: 1px solid rgba(251,250,250,.12);
+      background: rgba(251,250,250,.08);
+      padding: 16px 10px;
+    }
+    .num{
+      font-size: clamp(32px, 4vw, 64px);
+      font-weight: 900;
+    }
+    .lbl{
+      margin-top: 6px;
+      font-size: clamp(12px, 1.2vw, 18px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: rgba(251,250,250,.78);
+    }
+
+    .footer{
+      margin-top: 18px;
+      font-size: clamp(14px, 1.3vw, 20px);
+      color: rgba(251,250,250,.70);
+    }
+    .accent{
+      font-weight: 800;
+      color: var(--amber);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blob teal"></div>
+  <div class="blob coral"></div>
+  <div class="blob amber"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="topline">
+        <span class="tag teal">AFFICHAGE</span>
+        <span class="tag coral">TÉLÉ ISO</span>
+      </div>
+
+      <h1>BTS Opticien-Lunetier — compte à rebours</h1>
+
+      <div class="big" id="j">J-…</div>
+      <p class="sub" id="line">Chargement…</p>
+
+      <div class="grid" aria-label="Détail">
+        <div class="box"><div class="num" id="d">—</div><div class="lbl">jours</div></div>
+        <div class="box"><div class="num" id="h">—</div><div class="lbl">heures</div></div>
+        <div class="box"><div class="num" id="m">—</div><div class="lbl">minutes</div></div>
+        <div class="box"><div class="num" id="s">—</div><div class="lbl">secondes</div></div>
+      </div>
+
+      <div class="footer">
+        Première épreuve : <span class="accent">18 mai 2026 — 09:30</span> (heure de Paris)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Cible: 2026-05-18 09:30 Europe/Paris
+    const targetLocal = "2026-05-18T09:30:00";
+
+    function getParisOffsetMinutes(date) {
+      const fmt = new Intl.DateTimeFormat("fr-FR", {
+        timeZone: "Europe/Paris",
+        hour12: false,
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", second: "2-digit"
+      });
+      const parts = fmt.formatToParts(date).reduce((a,p)=> (a[p.type]=p.value, a), {});
+      const asUTC = Date.UTC(
+        Number(parts.year),
+        Number(parts.month)-1,
+        Number(parts.day),
+        Number(parts.hour),
+        Number(parts.minute),
+        Number(parts.second)
+      );
+      return (asUTC - date.getTime()) / 60000; // minutes
+    }
+
+    function parisWallTimeToUTCms(isoLocal) {
+      const [dPart, tPart] = isoLocal.split("T");
+      const [Y,M,D] = dPart.split("-").map(Number);
+      const [hh,mm,ss] = tPart.split(":").map(Number);
+      const provisionalUTC = Date.UTC(Y, M-1, D, hh, mm, ss || 0);
+      const offsetMin = getParisOffsetMinutes(new Date(provisionalUTC));
+      return provisionalUTC - offsetMin * 60000;
+    }
+
+    const targetUTCms = parisWallTimeToUTCms(targetLocal);
+    const el = id => document.getElementById(id);
+    const pad2 = n => String(n).padStart(2,"0");
+
+    function tick(){
+      const now = Date.now();
+      let diff = targetUTCms - now;
+
+      if (diff <= 0){
+        el("j").textContent = "C’est parti !";
+        el("line").textContent = "Bonne chance à tous 💪";
+        ["d","h","m","s"].forEach(x=>el(x).textContent="00");
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff/1000);
+      const days = Math.floor(totalSeconds / (3600*24));
+      const hours = Math.floor((totalSeconds % (3600*24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      el("j").textContent = `J-${days}`;
+      el("line").textContent = `${days} jour(s), ${pad2(hours)}h ${pad2(minutes)}m ${pad2(seconds)}s avant l’épreuve.`;
+
+      el("d").textContent = String(days);
+      el("h").textContent = pad2(hours);
+      el("m").textContent = pad2(minutes);
+      el("s").textContent = pad2(seconds);
+    }
+
+    tick();
+    setInterval(tick, 250);
+  </script>
+</body>
+</html>
