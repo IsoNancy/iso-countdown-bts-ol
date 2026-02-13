@@ -2,182 +2,137 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Compte à rebours — BTS 2025</title>
+<title>BTS 2025</title>
 
 <style>
-  :root{
-    --navy:#06172d;
-    --teal:#14e9d4;
-    --coral:#f3555a;
-    --amber:#f2aa33;
-    --white:#fbfafa;
-  }
-
-  *{ box-sizing:border-box; }
-
-  html,body{height:100%; margin:0;}
   body{
-    font-family: Arial, Helvetica, sans-serif;
-    color: var(--white);
-    background: var(--navy);
+    margin:0;
+    background:#06172d;
     overflow:hidden;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
-  /* Blobs */
+  /* Zone fixe 1920x1080 */
+  .stage{
+    width:1920px;
+    height:1080px;
+    margin:auto;
+    position:relative;
+    background:#06172d;
+  }
+
+  /* Dégradés arrière-plan */
   .blob{
     position:absolute;
-    width:110vmin; height:110vmin;
-    border-radius:999px;
-    filter: blur(55px);
-    opacity:.95;
-    transform: translate(-50%,-50%);
-    pointer-events:none;
-  }
-  .blob.teal{  background: radial-gradient(circle at 30% 30%, var(--teal), transparent 60%);  left:15%; top:85%; }
-  .blob.coral{ background: radial-gradient(circle at 40% 40%, var(--coral), transparent 60%); left:35%; top:52%; }
-  .blob.amber{ background: radial-gradient(circle at 50% 50%, var(--amber), transparent 60%); left:78%; top:62%; }
-
-  /* Plein écran */
-  .wrap{
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0;
+    width:900px;
+    height:900px;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.9;
   }
 
-  /* IMPORTANT: on baisse un peu la hauteur pour éviter toute coupe,
-     et on agrandit le contenu en réduisant les marges internes. */
+  .teal{ background:#14e9d4; left:-200px; bottom:-200px;}
+  .coral{ background:#f3555a; left:500px; top:200px;}
+  .amber{ background:#f2aa33; right:-200px; bottom:-200px;}
+
+  /* Carte centrale */
   .card{
-    width: 96vw;
-    height: 82vh;            /* plus "safe" que 86vh (évite la coupe en bas sur iSignage) */
-    max-width: 1750px;
-    max-height: 860px;
+    position:absolute;
+    width:1600px;
+    height:880px;
+    left:160px;
+    top:100px;
 
-    background: rgba(6,23,45,.35);
-    border: 1px solid rgba(251,250,250,.12);
-    border-radius: 28px;
-    padding: 2.2vh 2.6vw;    /* padding réduit -> plus de place utile */
-
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 20px 70px rgba(0,0,0,.35);
-
+    background:rgba(6,23,45,.35);
+    border-radius:30px;
+    padding:60px;
+    box-sizing:border-box;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    gap: 1.0vh;              /* espace réduit */
   }
 
-  /* BTS 2025 (plus gros) */
-  .bts-tag{
-    display:block;
-    margin: 0 auto;
-    width: 96%;
-    background: rgba(20,233,212,.95);
+  .bts{
+    background:#14e9d4;
     color:#05243b;
+    font-size:110px;
     font-weight:900;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-
-    padding: 1.6vh 0;       /* un peu plus compact */
-    border-radius: 22px;
-    font-size: clamp(54px, 6.2vw, 130px);  /* PLUS GROS */
-    transform: rotate(-2deg);
+    text-align:center;
+    padding:30px 0;
+    border-radius:20px;
+    transform:rotate(-2deg);
   }
 
-  /* J-X (plus gros) */
-  .jline{
-    font-size: clamp(44px, 5.2vw, 110px);  /* PLUS GROS */
+  .j{
+    text-align:center;
+    font-size:100px;
     font-weight:900;
-    margin: 0;
-    opacity:.98;
   }
 
   .grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap: clamp(10px, 1.0vw, 16px);         /* un peu moins de gap */
-    align-items:stretch;
+    display:flex;
+    justify-content:space-between;
   }
 
-  /* Tuiles plus compactes pour gagner de la hauteur */
   .box{
-    border-radius: 18px;
-    border: 1px solid rgba(251,250,250,.12);
-    background: rgba(251,250,250,.08);
-    padding: clamp(10px, 2.2vh, 18px) clamp(10px, 1.1vw, 16px); /* moins haut */
+    width:360px;
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:40px 0;
+    text-align:center;
   }
 
   .num{
-    font-size: clamp(42px, 4.9vw, 100px);  /* PLUS GROS */
+    font-size:100px;
     font-weight:900;
-    line-height: 1;
   }
 
   .lbl{
-    margin-top: 8px;
-    font-size: clamp(14px, 1.5vw, 24px);   /* PLUS GROS */
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    color: rgba(251,250,250,.80);
+    font-size:32px;
+    opacity:.8;
   }
 
-  /* Slogan : plus gros + toujours sur une ligne */
   .slogan{
-    display:block;
-    width: 96%;
-    margin: 0 auto;
-    padding: 1.3vh 2.2vw;                  /* compact */
-    border-radius: 999px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.18);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    font-size: clamp(20px, 2.5vw, 48px);   /* PLUS GROS */
+    text-align:center;
+    font-size:46px;
     font-weight:700;
-    color: var(--coral);
-    white-space: nowrap;
-
-    box-shadow: 0 8px 30px rgba(0,0,0,.25);
-    text-shadow:
-      0 0 8px rgba(243,85,90,.45),
-      0 0 16px rgba(243,85,90,.25);
+    color:#f3555a;
+    padding:25px 0;
+    border-radius:50px;
+    background:rgba(255,255,255,.08);
   }
 </style>
 </head>
 
 <body>
+
+<div class="stage">
   <div class="blob teal"></div>
   <div class="blob coral"></div>
   <div class="blob amber"></div>
 
-  <div class="wrap">
-    <div class="card">
-      <div class="bts-tag">BTS 2025</div>
-      <div class="jline" id="j">J-…</div>
+  <div class="card">
+    <div class="bts">BTS 2025</div>
+    <div class="j" id="j">J-…</div>
 
-      <div class="grid">
-        <div class="box"><div class="num" id="d">—</div><div class="lbl">jours</div></div>
-        <div class="box"><div class="num" id="h">—</div><div class="lbl">heures</div></div>
-        <div class="box"><div class="num" id="m">—</div><div class="lbl">minutes</div></div>
-        <div class="box"><div class="num" id="s">—</div><div class="lbl">secondes</div></div>
-      </div>
+    <div class="grid">
+      <div class="box"><div class="num" id="d">—</div><div class="lbl">JOURS</div></div>
+      <div class="box"><div class="num" id="h">—</div><div class="lbl">HEURES</div></div>
+      <div class="box"><div class="num" id="m">—</div><div class="lbl">MINUTES</div></div>
+      <div class="box"><div class="num" id="s">—</div><div class="lbl">SECONDES</div></div>
+    </div>
 
-      <div class="slogan">Travaillez avec régularité, réussissez avec sérénité.</div>
+    <div class="slogan">
+      Travaillez avec régularité, réussissez avec sérénité.
     </div>
   </div>
+</div>
 
 <script>
-  // ES5 ultra-compatible
-  // Cible: 18 mai 2026 09:30 Paris (UTC+02) => 07:30Z
   var targetUTCms = 1779089400000;
 
   function el(id){ return document.getElementById(id); }
-  function pad2(n){ n = String(n); return (n.length < 2) ? ("0" + n) : n; }
+  function pad2(n){ return (n<10?"0":"")+n; }
 
   function tick(){
     var now = new Date().getTime();
@@ -185,28 +140,25 @@
 
     if (diff <= 0){
       el("j").innerHTML = "C’est parti !";
-      el("d").innerHTML = "00";
-      el("h").innerHTML = "00";
-      el("m").innerHTML = "00";
-      el("s").innerHTML = "00";
       return;
     }
 
-    var totalSeconds = Math.floor(diff / 1000);
-    var days = Math.floor(totalSeconds / (3600 * 24));
-    var hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-    var minutes = Math.floor((totalSeconds % 3600) / 60);
-    var seconds = totalSeconds % 60;
+    var totalSeconds = Math.floor(diff/1000);
+    var days = Math.floor(totalSeconds/(3600*24));
+    var hours = Math.floor((totalSeconds%(3600*24))/3600);
+    var minutes = Math.floor((totalSeconds%3600)/60);
+    var seconds = totalSeconds%60;
 
     el("j").innerHTML = "J-" + days;
-    el("d").innerHTML = String(days);
+    el("d").innerHTML = days;
     el("h").innerHTML = pad2(hours);
     el("m").innerHTML = pad2(minutes);
     el("s").innerHTML = pad2(seconds);
   }
 
   tick();
-  setInterval(tick, 1000);
+  setInterval(tick,1000);
 </script>
+
 </body>
 </html>
