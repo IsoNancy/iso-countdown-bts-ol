@@ -8,7 +8,7 @@
     :root{
       --navy:#06172d;
       --teal:#14e9d4;
-      --coral:#f3555a; /* Rouge du design */
+      --coral:#f3555a;
       --amber:#f2aa33;
       --white:#fbfafa;
     }
@@ -54,7 +54,6 @@
       box-shadow: 0 20px 70px rgba(0,0,0,.35);
     }
 
-    /* BTS 2025 */
     .bts-tag{
       display:inline-block;
       background: rgba(20,233,212,.95);
@@ -69,7 +68,6 @@
       transform: rotate(-2deg);
     }
 
-    /* J-X */
     .jline{
       font-size: clamp(50px, 5vw, 90px);
       font-weight: 900;
@@ -103,22 +101,25 @@
       color: rgba(251,250,250,.75);
     }
 
-    /* Badge slogan glassmorphism version XXL */
+    /* Badge slogan ajusté */
     .slogan{
       margin-top: 35px;
       display:inline-block;
-      padding: 24px 48px;
+      padding: 18px 40px;
       border-radius: 999px;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.18);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      font-size: clamp(50px, 5vw, 90px); /* même taille que J-X */
-      font-weight: 900;
-      color: var(--coral); /* rouge */
+      font-size: clamp(28px, 2.2vw, 42px); /* réduit pour tenir sur une ligne */
+      font-weight: 700;
+      color: var(--coral);
       letter-spacing: -0.01em;
-      box-shadow: 0 10px 40px rgba(0,0,0,.25);
-      line-height: 1.1;
+      white-space: nowrap;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      text-shadow:
+        0 0 8px rgba(243,85,90,.4),
+        0 0 16px rgba(243,85,90,.25);
     }
 
   </style>
