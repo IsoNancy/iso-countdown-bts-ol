@@ -2,137 +2,195 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>BTS 2025</title>
 
 <style>
-  body{
-    margin:0;
-    background:#06172d;
-    overflow:hidden;
-    font-family: Arial, Helvetica, sans-serif;
+  :root{
+    --navy:#06172d;
+    --teal:#14e9d4;
+    --coral:#f3555a;
+    --amber:#f2aa33;
+    --white:#fbfafa;
   }
 
-  /* Zone fixe 1920x1080 */
-  .stage{
+  html,body{height:100%; margin:0; overflow:hidden; background:var(--navy);}
+  body{font-family: Arial, Helvetica, sans-serif;}
+
+  /* viewport iSignage */
+  #viewport{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    background:var(--navy);
+  }
+
+  /* “scène” fixe en 1920x1080 qu’on va scaler */
+  #stage{
+    position:absolute;
     width:1920px;
     height:1080px;
-    margin:auto;
-    position:relative;
-    background:#06172d;
+    left:0;
+    top:0;
+    transform-origin: 0 0;
+    background: var(--navy);
   }
 
-  /* Dégradés arrière-plan */
+  /* blobs */
   .blob{
     position:absolute;
-    width:900px;
-    height:900px;
-    border-radius:50%;
-    filter:blur(70px);
+    width:900px; height:900px;
+    border-radius:999px;
+    filter: blur(70px);
     opacity:.9;
   }
+  .blob.teal{  background: radial-gradient(circle at 30% 30%, var(--teal), transparent 60%); left:-250px; top:520px; }
+  .blob.coral{ background: radial-gradient(circle at 40% 40%, var(--coral), transparent 60%); left:520px; top:220px; }
+  .blob.amber{ background: radial-gradient(circle at 50% 50%, var(--amber), transparent 60%); left:1350px; top:520px; }
 
-  .teal{ background:#14e9d4; left:-200px; bottom:-200px;}
-  .coral{ background:#f3555a; left:500px; top:200px;}
-  .amber{ background:#f2aa33; right:-200px; bottom:-200px;}
-
-  /* Carte centrale */
+  /* card */
   .card{
     position:absolute;
-    width:1600px;
-    height:880px;
     left:160px;
     top:100px;
+    width:1600px;
+    height:880px;
 
-    background:rgba(6,23,45,.35);
-    border-radius:30px;
-    padding:60px;
-    box-sizing:border-box;
+    background: rgba(6,23,45,.35);
+    border: 1px solid rgba(251,250,250,.12);
+    border-radius: 30px;
+    padding: 55px;
+    box-sizing: border-box;
+
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 20px 70px rgba(0,0,0,.35);
   }
 
   .bts{
-    background:#14e9d4;
+    width: 100%;
+    background: rgba(20,233,212,.95);
     color:#05243b;
-    font-size:110px;
     font-weight:900;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-size:110px;
     text-align:center;
-    padding:30px 0;
-    border-radius:20px;
-    transform:rotate(-2deg);
+    padding: 26px 0;
+    border-radius: 22px;
+    transform: rotate(-2deg);
   }
 
   .j{
     text-align:center;
     font-size:100px;
     font-weight:900;
+    color: var(--white);
   }
 
   .grid{
     display:flex;
+    gap: 26px;
     justify-content:space-between;
   }
 
   .box{
-    width:360px;
-    background:rgba(255,255,255,.08);
-    border-radius:20px;
-    padding:40px 0;
+    flex:1;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(251,250,250,.12);
+    border-radius: 22px;
+    padding: 40px 0;
     text-align:center;
   }
 
   .num{
     font-size:100px;
     font-weight:900;
+    color: var(--white);
+    line-height:1;
   }
 
   .lbl{
+    margin-top: 14px;
     font-size:32px;
-    opacity:.8;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color: rgba(251,250,250,.78);
   }
 
   .slogan{
+    width: 100%;
     text-align:center;
     font-size:46px;
     font-weight:700;
-    color:#f3555a;
-    padding:25px 0;
-    border-radius:50px;
-    background:rgba(255,255,255,.08);
+    color: var(--coral);
+    padding: 22px 0;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    text-shadow:
+      0 0 8px rgba(243,85,90,.45),
+      0 0 16px rgba(243,85,90,.25);
   }
 </style>
 </head>
 
 <body>
+  <div id="viewport">
+    <div id="stage">
+      <div class="blob teal"></div>
+      <div class="blob coral"></div>
+      <div class="blob amber"></div>
 
-<div class="stage">
-  <div class="blob teal"></div>
-  <div class="blob coral"></div>
-  <div class="blob amber"></div>
+      <div class="card">
+        <div class="bts">BTS 2025</div>
+        <div class="j" id="j">J-…</div>
 
-  <div class="card">
-    <div class="bts">BTS 2025</div>
-    <div class="j" id="j">J-…</div>
+        <div class="grid">
+          <div class="box"><div class="num" id="d">—</div><div class="lbl">JOURS</div></div>
+          <div class="box"><div class="num" id="h">—</div><div class="lbl">HEURES</div></div>
+          <div class="box"><div class="num" id="m">—</div><div class="lbl">MINUTES</div></div>
+          <div class="box"><div class="num" id="s">—</div><div class="lbl">SECONDES</div></div>
+        </div>
 
-    <div class="grid">
-      <div class="box"><div class="num" id="d">—</div><div class="lbl">JOURS</div></div>
-      <div class="box"><div class="num" id="h">—</div><div class="lbl">HEURES</div></div>
-      <div class="box"><div class="num" id="m">—</div><div class="lbl">MINUTES</div></div>
-      <div class="box"><div class="num" id="s">—</div><div class="lbl">SECONDES</div></div>
-    </div>
-
-    <div class="slogan">
-      Travaillez avec régularité, réussissez avec sérénité.
+        <div class="slogan">Travaillez avec régularité, réussissez avec sérénité.</div>
+      </div>
     </div>
   </div>
-</div>
 
 <script>
+  // ---------- Auto-fit 1920x1080 -> viewport ----------
+  function fitStage(){
+    var vw = document.documentElement.clientWidth || window.innerWidth || 1920;
+    var vh = document.documentElement.clientHeight || window.innerHeight || 1080;
+
+    var scale = Math.min(vw / 1920, vh / 1080);
+
+    // centre
+    var left = Math.round((vw - 1920 * scale) / 2);
+    var top  = Math.round((vh - 1080 * scale) / 2);
+
+    var stage = document.getElementById("stage");
+    stage.style.transform = "translate(" + left + "px," + top + "px) scale(" + scale + ")";
+  }
+
+  // iSignage peut changer la taille après chargement -> on refit plusieurs fois
+  fitStage();
+  window.addEventListener("resize", fitStage);
+  setTimeout(fitStage, 200);
+  setTimeout(fitStage, 800);
+  setTimeout(fitStage, 1500);
+
+  // ---------- Countdown (ES5) ----------
+  // 18 mai 2026 09:30 Paris (UTC+02) => 07:30Z
   var targetUTCms = 1779089400000;
 
   function el(id){ return document.getElementById(id); }
-  function pad2(n){ return (n<10?"0":"")+n; }
+  function pad2(n){ return (n < 10 ? "0" : "") + n; }
 
   function tick(){
     var now = new Date().getTime();
@@ -140,25 +198,28 @@
 
     if (diff <= 0){
       el("j").innerHTML = "C’est parti !";
+      el("d").innerHTML = "00";
+      el("h").innerHTML = "00";
+      el("m").innerHTML = "00";
+      el("s").innerHTML = "00";
       return;
     }
 
-    var totalSeconds = Math.floor(diff/1000);
-    var days = Math.floor(totalSeconds/(3600*24));
-    var hours = Math.floor((totalSeconds%(3600*24))/3600);
-    var minutes = Math.floor((totalSeconds%3600)/60);
-    var seconds = totalSeconds%60;
+    var totalSeconds = Math.floor(diff / 1000);
+    var days = Math.floor(totalSeconds / (3600 * 24));
+    var hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    var minutes = Math.floor((totalSeconds % 3600) / 60);
+    var seconds = totalSeconds % 60;
 
     el("j").innerHTML = "J-" + days;
-    el("d").innerHTML = days;
+    el("d").innerHTML = String(days);
     el("h").innerHTML = pad2(hours);
     el("m").innerHTML = pad2(minutes);
     el("s").innerHTML = pad2(seconds);
   }
 
   tick();
-  setInterval(tick,1000);
+  setInterval(tick, 1000);
 </script>
-
 </body>
 </html>
